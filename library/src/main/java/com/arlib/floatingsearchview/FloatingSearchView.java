@@ -3,17 +3,14 @@ package com.arlib.floatingsearchview;
 /**
  * Copyright (C) 2015 Ari C.
  * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
  * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
  */
 
 import android.animation.Animator;
@@ -27,6 +24,7 @@ import android.content.ContextWrapper;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -45,9 +43,10 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -110,8 +109,9 @@ public class FloatingSearchView extends FrameLayout {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({LEFT_ACTION_MODE_SHOW_HAMBURGER, LEFT_ACTION_MODE_SHOW_SEARCH,
-            LEFT_ACTION_MODE_SHOW_HOME, LEFT_ACTION_MODE_NO_LEFT_ACTION, LEFT_ACTION_MODE_NOT_SET})
+             LEFT_ACTION_MODE_SHOW_HOME, LEFT_ACTION_MODE_NO_LEFT_ACTION, LEFT_ACTION_MODE_NOT_SET})
     public @interface LeftActionMode {
+
     }
 
     @LeftActionMode
@@ -191,6 +191,7 @@ public class FloatingSearchView extends FrameLayout {
     //An interface for implementing a listener that will get notified when the suggestions
     //section's height is set. This is to be used internally only.
     private interface OnSuggestionSecHeightSetListener {
+
         void onSuggestionSecHeightSet();
     }
 
@@ -337,7 +338,6 @@ public class FloatingSearchView extends FrameLayout {
 
         mHostActivity = getHostActivity();
 
-        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMainLayout = inflate(getContext(), R.layout.floating_search_layout, this);
         mBackgroundDrawable = new ColorDrawable(Color.BLACK);
 
@@ -469,10 +469,10 @@ public class FloatingSearchView extends FrameLayout {
                     (LinearLayout.LayoutParams) mSuggestionsSection.getLayoutParams();
             int cardPadding = Util.dpToPx(CARD_VIEW_TOP_BOTTOM_SHADOW_HEIGHT);
             querySectionLP.setMargins(searchBarLeftMargin, searchBarTopMargin,
-                    searchBarRightMargin, 0);
+                                      searchBarRightMargin, 0);
             dividerLP.setMargins(searchBarLeftMargin + cardPadding, 0,
-                    searchBarRightMargin + cardPadding,
-                    ((MarginLayoutParams) mDivider.getLayoutParams()).bottomMargin);
+                                 searchBarRightMargin + cardPadding,
+                                 ((MarginLayoutParams) mDivider.getLayoutParams()).bottomMargin);
             suggestListSectionLP.setMargins(searchBarLeftMargin, 0, searchBarRightMargin, 0);
             mQuerySection.setLayoutParams(querySectionLP);
             mDivider.setLayoutParams(dividerLP);
@@ -480,26 +480,26 @@ public class FloatingSearchView extends FrameLayout {
 
             setSearchHint(a.getString(R.styleable.FloatingSearchView_floatingSearch_searchHint));
             setShowSearchKey(a.getBoolean(R.styleable.FloatingSearchView_floatingSearch_showSearchKey,
-                    ATTRS_SEARCH_BAR_SHOW_SEARCH_KEY_DEFAULT));
+                                          ATTRS_SEARCH_BAR_SHOW_SEARCH_KEY_DEFAULT));
             setCloseSearchOnKeyboardDismiss(a.getBoolean(R.styleable.FloatingSearchView_floatingSearch_close_search_on_keyboard_dismiss,
-                    ATTRS_DISMISS_ON_KEYBOARD_DISMISS_DEFAULT));
+                                                         ATTRS_DISMISS_ON_KEYBOARD_DISMISS_DEFAULT));
             setDismissOnOutsideClick(a.getBoolean(R.styleable.FloatingSearchView_floatingSearch_dismissOnOutsideTouch,
-                    ATTRS_DISMISS_ON_OUTSIDE_TOUCH_DEFAULT));
+                                                  ATTRS_DISMISS_ON_OUTSIDE_TOUCH_DEFAULT));
             setSuggestionItemTextSize(a.getDimensionPixelSize(
                     R.styleable.FloatingSearchView_floatingSearch_searchSuggestionTextSize,
                     Util.spToPx(ATTRS_SUGGESTION_TEXT_SIZE_SP_DEFAULT)));
             //noinspection ResourceType
             mLeftActionMode = a.getInt(R.styleable.FloatingSearchView_floatingSearch_leftActionMode,
-                    ATTRS_SEARCH_BAR_LEFT_ACTION_MODE_DEFAULT);
+                                       ATTRS_SEARCH_BAR_LEFT_ACTION_MODE_DEFAULT);
             if (a.hasValue(R.styleable.FloatingSearchView_floatingSearch_menu)) {
                 mMenuId = a.getResourceId(R.styleable.FloatingSearchView_floatingSearch_menu, -1);
             }
             setDimBackground(a.getBoolean(R.styleable.FloatingSearchView_floatingSearch_dimBackground,
-                    ATTRS_SHOW_DIM_BACKGROUND_DEFAULT));
+                                          ATTRS_SHOW_DIM_BACKGROUND_DEFAULT));
             setShowMoveUpSuggestion(a.getBoolean(R.styleable.FloatingSearchView_floatingSearch_showMoveSuggestionUp,
-                    ATTRS_SHOW_MOVE_UP_SUGGESTION_DEFAULT));
+                                                 ATTRS_SHOW_MOVE_UP_SUGGESTION_DEFAULT));
             this.mSuggestionSectionAnimDuration = a.getInt(R.styleable.FloatingSearchView_floatingSearch_suggestionsListAnimDuration,
-                    ATTRS_SUGGESTION_ANIM_DURATION_DEFAULT);
+                                                           ATTRS_SUGGESTION_ANIM_DURATION_DEFAULT);
             setBackgroundColor(a.getColor(R.styleable.FloatingSearchView_floatingSearch_backgroundColor
                     , Util.getColor(getContext(), R.color.background)));
             setLeftActionIconColor(a.getColor(R.styleable.FloatingSearchView_floatingSearch_leftActionColor
@@ -518,6 +518,7 @@ public class FloatingSearchView extends FrameLayout {
                     , Util.getColor(getContext(), R.color.hint_color)));
             setSuggestionRightIconColor(a.getColor(R.styleable.FloatingSearchView_floatingSearch_suggestionRightIconColor
                     , Util.getColor(getContext(), R.color.gray_active_icon)));
+            setFont(a.getString(R.styleable.FloatingSearchView_floatingSearch_textFont));
         } finally {
             a.recycle();
         }
@@ -557,7 +558,6 @@ public class FloatingSearchView extends FrameLayout {
             @Override
             public void onMenuModeChange(MenuBuilder menu) {
             }
-
         });
 
         mMenuView.setOnVisibleWidthChanged(new MenuView.OnVisibleWidthChangedListener() {
@@ -588,7 +588,7 @@ public class FloatingSearchView extends FrameLayout {
                     mSkipTextChangeEvent = false;
                 } else {
                     if (mSearchInput.getText().toString().length() != 0 &&
-                            mClearButton.getVisibility() == View.INVISIBLE) {
+                        mClearButton.getVisibility() == View.INVISIBLE) {
                         mClearButton.setAlpha(0.0f);
                         mClearButton.setVisibility(View.VISIBLE);
                         ViewCompat.animate(mClearButton).alpha(1.0f).setDuration(CLEAR_BTN_FADE_ANIM_DURATION).start();
@@ -599,12 +599,10 @@ public class FloatingSearchView extends FrameLayout {
                     if (mQueryListener != null && mIsFocused && !mOldQuery.equals(mSearchInput.getText().toString())) {
                         mQueryListener.onSearchTextChanged(mOldQuery, mSearchInput.getText().toString());
                     }
-
                 }
 
                 mOldQuery = mSearchInput.getText().toString();
             }
-
         });
 
         mSearchInput.setOnFocusChangeListener(new TextView.OnFocusChangeListener() {
@@ -669,7 +667,6 @@ public class FloatingSearchView extends FrameLayout {
                             break;
                     }
                 }
-
             }
         });
 
@@ -1031,7 +1028,6 @@ public class FloatingSearchView extends FrameLayout {
         }
     }
 
-
     /**
      * Sets whether the search will lose focus when the softkeyboard
      * gets closed from a back press
@@ -1143,6 +1139,23 @@ public class FloatingSearchView extends FrameLayout {
     }
 
     /**
+     *  Sets the font in the search text field
+      * @param fontPath font path in the assets folder
+     */
+    public void setFont(String fontPath) {
+        Log.i("XXX", "font is " + fontPath);
+        if (TextUtils.isEmpty(fontPath)){
+            return;
+        }
+        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), fontPath);
+        if (tf == null) {
+            return;
+        }
+        mSearchInput.setTypeface(tf, Typeface.BOLD);
+    }
+
+
+    /**
      * Returns the current query text.
      *
      * @return the current query
@@ -1185,21 +1198,22 @@ public class FloatingSearchView extends FrameLayout {
     private void setupSuggestionSection() {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.VERTICAL, true);
+                                                                    LinearLayoutManager.VERTICAL, true);
         mSuggestionsList.setLayoutManager(layoutManager);
         mSuggestionsList.setItemAnimator(null);
 
         final GestureDetector gestureDetector = new GestureDetector(getContext(),
-                new GestureDetectorListenerAdapter() {
+                                                                    new GestureDetectorListenerAdapter() {
 
-                    @Override
-                    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                        if (mHostActivity != null) {
-                            Util.closeSoftKeyboard(mHostActivity);
-                        }
-                        return false;
-                    }
-                });
+                                                                        @Override
+                                                                        public boolean onScroll(MotionEvent e1, MotionEvent e2,
+                                                                                                float distanceX, float distanceY) {
+                                                                            if (mHostActivity != null) {
+                                                                                Util.closeSoftKeyboard(mHostActivity);
+                                                                            }
+                                                                            return false;
+                                                                        }
+                                                                    });
         mSuggestionsList.addOnItemTouchListener(new OnItemTouchListenerAdapter() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
@@ -1209,33 +1223,33 @@ public class FloatingSearchView extends FrameLayout {
         });
 
         mSuggestionsAdapter = new SearchSuggestionsAdapter(getContext(), mSuggestionsTextSizePx,
-                new SearchSuggestionsAdapter.Listener() {
+                                                           new SearchSuggestionsAdapter.Listener() {
 
-                    @Override
-                    public void onItemSelected(SearchSuggestion item) {
-                        mIsFocused = false;
+                                                               @Override
+                                                               public void onItemSelected(SearchSuggestion item) {
+                                                                   mIsFocused = false;
 
-                        if (mSearchListener != null) {
-                            mSearchListener.onSuggestionClicked(item);
-                        }
+                                                                   if (mSearchListener != null) {
+                                                                       mSearchListener.onSuggestionClicked(item);
+                                                                   }
 
-                        mSkipTextChangeEvent = true;
-                        if (mIsTitleSet) {
-                            setSearchBarTitle(item.getBody());
-                        } else {
-                            setSearchText(item.getBody());
-                        }
-                        setSearchFocusedInternal(false);
-                    }
+                                                                   mSkipTextChangeEvent = true;
+                                                                   if (mIsTitleSet) {
+                                                                       setSearchBarTitle(item.getBody());
+                                                                   } else {
+                                                                       setSearchText(item.getBody());
+                                                                   }
+                                                                   setSearchFocusedInternal(false);
+                                                               }
 
-                    @Override
-                    public void onMoveItemToSearchClicked(SearchSuggestion item) {
+                                                               @Override
+                                                               public void onMoveItemToSearchClicked(SearchSuggestion item) {
 
-                        mSearchInput.setText(item.getBody());
-                        //move cursor to end of text
-                        mSearchInput.setSelection(mSearchInput.getText().length());
-                    }
-                });
+                                                                   mSearchInput.setText(item.getBody());
+                                                                   //move cursor to end of text
+                                                                   mSearchInput.setSelection(mSearchInput.getText().length());
+                                                               }
+                                                           });
         refreshShowMoveUpSuggestion();
         mSuggestionsAdapter.setTextColor(this.mSuggestionTextColor);
         mSuggestionsAdapter.setRightIconColor(this.mSuggestionRightIconColor);
@@ -1286,15 +1300,15 @@ public class FloatingSearchView extends FrameLayout {
         final int cardTopBottomShadowPadding = Util.dpToPx(CARD_VIEW_CORNERS_AND_TOP_BOTTOM_SHADOW_HEIGHT);
         final int cardRadiusSize = Util.dpToPx(CARD_VIEW_TOP_BOTTOM_SHADOW_HEIGHT);
 
-
         int visibleSuggestionHeight = calculateSuggestionItemsHeight(newSearchSuggestions,
-                mSuggestionListContainer.getHeight());
+                                                                     mSuggestionListContainer.getHeight());
         int diff = mSuggestionListContainer.getHeight() - visibleSuggestionHeight;
         int addedTranslationYForShadowOffsets = (diff <= cardTopBottomShadowPadding) ?
-                -(cardTopBottomShadowPadding - diff) :
-                diff < (mSuggestionListContainer.getHeight() - cardTopBottomShadowPadding) ? cardRadiusSize : 0;
+                                                -(cardTopBottomShadowPadding - diff) :
+                                                diff < (mSuggestionListContainer.getHeight() - cardTopBottomShadowPadding) ? cardRadiusSize
+                                                                                                                           : 0;
         final float newTranslationY = -mSuggestionListContainer.getHeight() +
-                visibleSuggestionHeight + addedTranslationYForShadowOffsets;
+                                      visibleSuggestionHeight + addedTranslationYForShadowOffsets;
 
         final boolean animateAtEnd = newTranslationY >= mSuggestionListContainer.getTranslationY();
 
@@ -1416,7 +1430,7 @@ public class FloatingSearchView extends FrameLayout {
                 mSearchInput.setText("");
             }
             mClearButton.setVisibility((mSearchInput.getText().toString().length() == 0) ?
-                    View.INVISIBLE : View.VISIBLE);
+                                       View.INVISIBLE : View.VISIBLE);
             if (mFocusChangeListener != null) {
                 mFocusChangeListener.onFocus();
             }
@@ -1925,6 +1939,7 @@ public class FloatingSearchView extends FrameLayout {
     }
 
     private class DrawerListener implements DrawerLayout.DrawerListener {
+
         @Override
         public void onDrawerSlide(View drawerView, float slideOffset) {
             setMenuIconProgress(slideOffset);
