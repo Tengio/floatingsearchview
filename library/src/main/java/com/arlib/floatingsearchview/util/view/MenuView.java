@@ -2,13 +2,13 @@ package com.arlib.floatingsearchview.util.view;
 
 /**
  * Copyright (C) 2015 Ari C.
- * <p/>
+ * <p></p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p/>
+ * <p></p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
+ * <p></p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -135,7 +135,7 @@ public class MenuView extends LinearLayout {
     /**
      * Resets the the view to fit into a new
      * available width.
-     * <p/>
+     *
      * <p>This clears and then re-inflates the menu items
      * , removes all of its associated action views, and re-creates
      * the menu and action items to fit in the new width.</p>
