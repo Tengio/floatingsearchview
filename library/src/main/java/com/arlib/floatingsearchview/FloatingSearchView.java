@@ -1143,7 +1143,6 @@ public class FloatingSearchView extends FrameLayout {
       * @param fontPath font path in the assets folder
      */
     public void setFont(String fontPath) {
-        Log.i("XXX", "font is " + fontPath);
         if (TextUtils.isEmpty(fontPath)){
             return;
         }
