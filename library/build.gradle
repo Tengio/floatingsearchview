@@ -1,4 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+project.version = "2.0.3"
+project.group = "com.tengio.floatingsearchview"
 
 android {
     compileSdkVersion 25
@@ -14,7 +19,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
@@ -22,3 +26,45 @@ dependencies {
     compile 'com.bartoszlipinski:viewpropertyobjectanimator:1.2.0'
 }
 
+bintray {
+    user = BINTRAY_USER
+    key = BINTRAY_KEY
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'floatingsearchview'
+        userOrg = 'tengioltd'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Tengio/floatingsearchview.git'
+    }
+}
+
+android.libraryVariants.all { variant ->
+    def name = variant.buildType.name
+    if (name.equals(com.android.builder.core.BuilderConstants.DEBUG)) {
+        return;
+    }
+    def task = project.tasks.create "jar${name.capitalize()}", Jar
+    task.dependsOn variant.javaCompile
+    task.from variant.javaCompile.destinationDir
+    artifacts.add('archives', task);
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath = files(project.android.getBootClasspath())
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}

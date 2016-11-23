@@ -185,6 +185,18 @@ Available styling:
 If you have any questions, issues, or just want to let me know how you are using this library, feel free to create a [new issue](https://github.com/arimorty/floatingsearchview/issues/new) or add a comment in the [feedback issue](https://github.com/arimorty/floatingsearchview/issues/106) and let me know. All feedback is well appreciated!
 
 
+
+Tengio Release
+==============
+
+[ ![Download](https://api.bintray.com/packages/tengioltd/maven/floatingsearchview/images/download.svg) ](https://bintray.com/tengioltd/maven/floatingsearchview/_latestVersion)
+
+Gradle dependency:
+```
+compile 'com.tengio.floatingsearchview:library:2.0.3'
+```
+
+
 License
 =======
 

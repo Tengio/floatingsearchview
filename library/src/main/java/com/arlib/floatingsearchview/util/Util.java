@@ -110,8 +110,7 @@ public class Util {
      * Gets a reference to a given drawable and prepares it for use with tinting through.
      *
      * @param resId the resource id for the given drawable
-     * @return a wrapped drawable ready fo use
-     * with {@link android.support.v4.graphics.drawable.DrawableCompat}'s tinting methods
+     * @return a wrapped drawable ready fo use with DrawableCompat's tinting methods
      * @throws Resources.NotFoundException
      */
     public static Drawable getWrappedDrawable(Context context, @DrawableRes int resId) throws Resources.NotFoundException {
