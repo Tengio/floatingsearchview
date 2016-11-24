@@ -1003,6 +1003,9 @@ public class FloatingSearchView extends FrameLayout {
      * action visible.
      */
     public void showProgress() {
+        if (mSearchProgress.getVisibility() != View.GONE){
+            return;
+        }
         mLeftAction.setVisibility(View.GONE);
         mSearchProgress.setAlpha(0.0f);
         mSearchProgress.setVisibility(View.VISIBLE);
@@ -1014,6 +1017,9 @@ public class FloatingSearchView extends FrameLayout {
      * a prior call to showProgress()
      */
     public void hideProgress() {
+        if (mSearchProgress.getVisibility() != View.VISIBLE){
+            return;
+        }
         mSearchProgress.setVisibility(View.GONE);
         mLeftAction.setAlpha(0.0f);
         mLeftAction.setVisibility(View.VISIBLE);
