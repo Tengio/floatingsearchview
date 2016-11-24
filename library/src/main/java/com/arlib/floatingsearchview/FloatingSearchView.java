@@ -45,7 +45,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -670,7 +669,7 @@ public class FloatingSearchView extends FrameLayout {
             }
         });
 
-        refreshLeftIcon();
+        refreshLeftIcon(false);
     }
 
     private void refreshSearchInputPaddingEnd(int menuItemsWidth) {
@@ -866,23 +865,58 @@ public class FloatingSearchView extends FrameLayout {
      * @param mode
      */
     public void setLeftActionMode(@LeftActionMode int mode) {
+        if (mode == mLeftActionMode){
+            return;
+        }
+        boolean showAnim = false;
+        if ((mLeftActionMode == LEFT_ACTION_MODE_SHOW_HOME && mode == LEFT_ACTION_MODE_SHOW_HAMBURGER) ||
+            (mLeftActionMode == LEFT_ACTION_MODE_SHOW_HAMBURGER && mode == LEFT_ACTION_MODE_SHOW_HOME )) {
+            showAnim = true;
+        }
         mLeftActionMode = mode;
-        refreshLeftIcon();
+        refreshLeftIcon(showAnim);
     }
 
-    private void refreshLeftIcon() {
+    private void refreshLeftIcon(boolean showAnim) {
         int leftActionWidthAndMarginLeft = Util.dpToPx(LEFT_MENU_WIDTH_AND_MARGIN_START);
         int queryTranslationX = 0;
 
         mLeftAction.setVisibility(VISIBLE);
         switch (mLeftActionMode) {
             case LEFT_ACTION_MODE_SHOW_HAMBURGER:
+                if (showAnim && mMenuBtnDrawable.getProgress() == 1.0f) {
+                    ValueAnimator anim = ValueAnimator.ofFloat(1.0f, 0.0f);
+                    anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float value = (Float) animation.getAnimatedValue();
+                            mMenuBtnDrawable.setProgress(value);
+                        }
+                    });
+                    anim.setDuration(MENU_ICON_ANIM_DURATION);
+                    anim.start();
+                    break;
+                }
                 mLeftAction.setImageDrawable(mMenuBtnDrawable);
+                mMenuBtnDrawable.setProgress(0.0f);
                 break;
             case LEFT_ACTION_MODE_SHOW_SEARCH:
                 mLeftAction.setImageDrawable(mIconSearch);
                 break;
             case LEFT_ACTION_MODE_SHOW_HOME:
+                if (showAnim && mMenuBtnDrawable.getProgress() == 0.0f){
+                    ValueAnimator anim = ValueAnimator.ofFloat(0.0f, 1.0f);
+                    anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float value = (Float) animation.getAnimatedValue();
+                            mMenuBtnDrawable.setProgress(value);
+                        }
+                    });
+                    anim.setDuration(MENU_ICON_ANIM_DURATION);
+                    anim.start();
+                    break;
+                }
                 mLeftAction.setImageDrawable(mMenuBtnDrawable);
                 mMenuBtnDrawable.setProgress(1.0f);
                 break;
@@ -1143,7 +1177,6 @@ public class FloatingSearchView extends FrameLayout {
       * @param fontPath font path in the assets folder
      */
     public void setFont(String fontPath) {
-        Log.i("XXX", "font is " + fontPath);
         if (TextUtils.isEmpty(fontPath)){
             return;
         }
