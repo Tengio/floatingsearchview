@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
-project.version = "2.0.3"
+project.version = "2.0.4"
 project.group = "com.tengio.floatingsearchview"
 
 android {
@@ -13,7 +13,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 10
-        versionName "2.0.3"
+        versionName "2.0.4"
         //consumerProguardFiles 'consumer-proguard-rules.txt'
     }
 }
