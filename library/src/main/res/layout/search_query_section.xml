@@ -50,7 +50,7 @@
             android:layout_toEndOf="@+id/search_bar_left_action_container"
             android:layout_toRightOf="@+id/search_bar_left_action_container">
 
-            <com.arlib.floatingsearchview.util.view.SearchInputView
+            <com.tengio.util.view.SearchInputView
                 android:id="@+id/search_bar_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             android:clickable="true"
             android:padding="@dimen/square_button_padding" />
 
-        <com.arlib.floatingsearchview.util.view.MenuView
+        <com.tengio.util.view.MenuView
             android:id="@+id/menu_view"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/square_button_size"

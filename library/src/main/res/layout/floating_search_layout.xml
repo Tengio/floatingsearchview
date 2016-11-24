@@ -15,7 +15,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <include layout="@layout/search_query_section" />
         </FrameLayout>
 
@@ -29,5 +28,4 @@
             android:visibility="gone" />
     </FrameLayout>
 
-    <include layout="@layout/search_suggestions_section" />
 </LinearLayout>

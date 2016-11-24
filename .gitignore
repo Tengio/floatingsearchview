@@ -9,3 +9,5 @@
 /captures
 /notes
 *.iml
+**/*.iml
+**/build
